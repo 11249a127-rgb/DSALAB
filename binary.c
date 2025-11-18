@@ -1,70 +1,68 @@
-Aim:
+                                                                        //BINARYSEARCH//
 
-To write a C program that performs binary search on a sorted array to find 
-the position of a given element entered by the user.
-Algorithm for Binary Search:
+//*AIM: To find the required element in Binary Search*//
 
-1.Start
-2.Declare variables: n (size of array), i (loop counter), key (element to 
-search), start, end, and mid.
-3.Ask the user to enter the size of the array and read n.
-4.Declare an array of size n.
-5.Ask the user to enter n elements in sorted order and store them in the array.
-6.Ask the user to enter the element (key) to be searched.
-7.Initialize:
-  start = 0
-  end = n - 1
-8.Repeat while start <= end:
-  Compute mid = (start + end) / 2
-  If arr[mid] == key:
-    Print that the element is found at index mid
-    Exit the algorithm
+🧭 Algorithm:
+• Divide the search space into two halves by finding the middle index "mid".
+• Compare the middle element of the search space with the key.
+• If the key is found at middle element, the process is terminated.
+• If the key is not found at middle element, choose which half will be used as the next
+search space.
+– If the key is smaller than the middle element, then the left side is used for next
+search.
+– If the key is larger than the middle element, then the right side is used for next
+search.
 
-  Else if arr[mid] < key:
-    Set start = mid + 1
-  Else:
-    Set end = mid - 1
-9.If the loop ends without finding the element:
- Print "Element not found in the array"
-10.Stop
-program:
+• This process is continued until the key is found or the total search space is exhausted.
+
+🧭 Code:
+
 #include <stdio.h>
 
-int main() 
-{
-    int n, i, key;
-    
-    printf("Enter the size of array: ");
-    scanf("%d", &n);
-    
-    int arr[n];
-    
-    printf("Enter the elements of array in sorted order:\n");
-    for (i = 0; i < n; i++) {
-        printf("Element %d: ", i + 1);
+int binary_search(int arr[], int size, int term) {
+    int left = 0;
+    int right = size - 1;
+   
+    // Repeat until the search space is exhausted
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+       
+        // Check if the term is found at mid
+        if (arr[mid] == term)
+            return mid;
+        // If the term is greater, ignore the left half
+        else if (arr[mid] < term)
+            left = mid + 1;
+        // If the term is smaller, ignore the right half
+        else
+            right = mid - 1;
+    }
+    // Return -1 if the term is not found
+    return -1;
+}
+
+int main() {
+    int size, term;
+    printf("Enter size of array: ");
+    scanf("%d", &size);
+
+    int arr[size];
+    printf("Enter %d sorted numbers:\n", size);
+    for (int i = 0; i < size; i++) {
         scanf("%d", &arr[i]);
     }
-    
-    printf("Enter the element to search: ");
-    scanf("%d", &key);
-    
-    int start = 0, end = n - 1, mid;
-    
-    while (start <= end) {
-        mid = (start + end) / 2;
-        
-        if (arr[mid] == key) {
-            printf("\nElement found at index %d\n", mid);
-            return 0;
-        }
-        else if (arr[mid] < key) {
-            start = mid + 1;
-        }
-        else {
-            end = mid - 1;
-        }
-    }
-    
-    printf("\nElement not found in the array.\n");
+
+    printf("Enter number to search: ");
+    scanf("%d", &term);
+
+    // Call binary search function
+    int result = binary_search(arr, size, term);
+   
+    // Display result
+    if (result != -1)
+        printf("Found at index %d\n", result);
+    else
+        printf("Not found\n");
+
     return 0;
 }
