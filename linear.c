@@ -1,57 +1,51 @@
-Aim
+                                                                          //LINEAR SEARCH//
+//*AIM: To find the required element in linear Search*//
+                                                                 
+🧭 Algorithm:  
+                                                                 
+Step 1: start from index 0 and compare each element with target.
+Step 2: if arr[i] is not equal to target, increment i.
+Step 3: Continue until you find arr[i] equals the target.
+Step 4: Return the index i where the target is found.
+Step 5: If end is reached and target is not found return -1.
+ 
+🧭 Code:
+ 
+#include <stdio.h>
 
-To write a C program that performs linear search on anarray to find the 
-position of an element entered by the user.
-Algorithm for Linear Search
+int linear_search(int arr[], int size, int term) {
+    // Traverse the array to find the search term
+    for (int i = 0; i < size; i++) {
+        // If the element matches the search term, return its index
+        if (arr[i] == term)
+            return i;
+    }
+    // Return -1 if the term is not found
+    return -1;
+}
 
-1.Start
-2.Declare variables:
-  n → size of array
-  i → loop counter
-  key → element to be searched
-3.Ask the user to enter the size of the array (n).
-4.Declare an array A of size n.
-5.Ask the user to enter n elements and store them in the array.
-6.Ask the user to enter the element to be searched (key).
-7.Set i = 0.
-8.Repeat the following steps while i < n:
-  If A[i] == key:
-    Print that the element is found at index i.
-    Stop the algorithm.
-  Otherwise increment i.
+int main() {
+    int size, term;
+    printf("Enter size of array: ");
+    scanf("%d", &size);
 
-9.If the loop exits without finding the key:
- Print "Element not found".
-10.Stop
-program:
-#include<stdio.h>
-int main()
-{
-    int n,i,key;
-    printf("Enter the size of array: ");
-    scanf("%d", &n);
-
-    int A[n];
-    printf("Enter the elements of the array:\n");
-    for (i=0; i<n; i++)
-    {
-        printf("Element %d:",i);
-        scanf("%d", &A[i]);
-    
+    int arr[size];
+    printf("Enter %d numbers:\n", size);
+    for (int i = 0; i < size; i++) {
+        scanf("%d", &arr[i]);
     }
 
-    printf("Enter element to find:");
-    scanf("%d", &key);
+    printf("Enter number to search: ");
+    scanf("%d", &term);
 
-    for(i=0; i<n; i++)
-    {
-        if (A[i] == key)
-        {
-        printf("\n\t\t Element found at index %d\n",i);
-        return 0;
-        }
-    }
+    // Call the linear search function and store result
+    int result = linear_search(arr, size, term);
+   
+    // Display the result based on whether the number was found or not
+    if (result != -1)
+        printf("Found at index %d\n", result);
+    else
+        printf("Not found\n");
 
-    printf("\n\t\t Element not found;");
     return 0;
 }
