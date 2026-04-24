@@ -1,55 +1,56 @@
 #include <stdio.h>
-struct Item
+#include <limits.h>
+#define MAXN 15
+#define INF INF_MAX
+int n;
+int d[MAXN][MAXN];
+int dp[MAXN][1 << MAXN];
+int g(int i,int s)
 {
-    int weight;
-    int profit;
-    int ppw;//profit for weight
-};
-void sort(struct Item items[],int n)
-{
-    struct Item temp;
-    for (int i = 0; i < n-1; i++)
+    if (s==0)
+        return d[i][0];
+    if (dp[i][s] != -1)
+        return dp[i][s];
+    int mincost = INF;
+    for (int k = 0; k < n; k++)
     {
-        for (int j = 0; j < n-i-1; j++)
+        if (s & (1 << k))
         {
-            if (items[j].ppw < items[j+1].ppw)
+            int cost = d[i][k] + g(k,s & ~(1 <<k));
+            if (cost < mincost)
             {
-                temp = items[j];
-                items[j] = items[j+1];
-                items[j+1] = temp;
+                mincost = cost;
             }
         }
     }
+    return dp[i][s] = mincost;
 }
 int main()
 {
-    int n,capacity;
-    printf("enter the value of n:");
+    printf("ewnter number of cities:");
     scanf("%d",&n);
-    struct Item itm[n];
-    printf("enter the weight and profit for items:");
-    for (int i=0; i<n; i++)
-    {
-        scanf("%d %d", &itm[i].weight, &itm[i].profit);
-        itm[i].ppw = itm[i].profit / itm[i].weight;
-    }
-    sort(itm,n);
-    float totalprofit = 0;
-    printf("enter the capacity:");
-    scanf("%d",&capacity);
-    for (int i=0; i<n; i++)
-    {
-        if (itm[i].weight <= capacity)
+    printf("enter cost matrix:\n");
+    for (int i=0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            scanf("%d", &d[i][j]);
+    for (int i = 0;i < n; i++)
+        for (int mask =0; mask < (1 << n); mask++)
         {
-            capacity -= itm[i].weight;
-            totalprofit += itm[i].profit;
+            dp[i][mask] = -1;
         }
-        else
-        {
-            totalprofit += itm[i].ppw*capacity;
-            break;
-        }
+    int s = 0;
+    for (int i = 1;i <n; i
+    ++)
+        s |= (1 << i);
+    int result = g(0,s);
+    printf("given cost matrix\n");
+    for(int i = 0;i < n; i++)
+    {
+        printf("|");
+        for (int j = 0; j<n;j++)
+            printf("%d",d[i][j]);
+        printf("|\n");
     }
-    printf("profit is %f",totalprofit);
+    printf("minimum travelling cost: %d\n", result);
     return 0;
 }
